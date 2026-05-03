@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Student Dashboard | HostelCare{% endblock %}
+{% block content %}
+<section class="page-head">
+  <div>
+    <p class="eyebrow">Student Dashboard</p>
+    <h1>Hello, {{ current_user.name }}</h1>
+  </div>
+  <a class="button" href="{{ url_for('new_complaint') }}">New Complaint</a>
+</section>
+<section class="stats-grid">
+  <div class="stat"><span>Total</span><strong>{{ stats.total or 0 }}</strong></div>
+  <div class="stat"><span>Pending</span><strong>{{ stats.pending or 0 }}</strong></div>
+  <div class="stat"><span>In Progress</span><strong>{{ stats.progress or 0 }}</strong></div>
+  <div class="stat"><span>Resolved</span><strong>{{ stats.resolved or 0 }}</strong></div>
+</section>
+<section class="table-shell">
+  <h2>Complaint History</h2>
+  <div class="complaint-list">
+    {% for complaint in complaints %}
+      <a class="complaint-row" href="{{ url_for('complaint_detail', complaint_code=complaint.complaint_code) }}">
+        <div><strong>{{ complaint.title }}</strong><small>{{ complaint.complaint_code }} · {{ complaint.category }} · Room {{ complaint.room }}</small></div>
+        <span class="priority {{ complaint.priority|lower }}">{{ complaint.priority }}</span>
+        <span class="status {{ complaint.status|replace(' ', '-')|lower }}">{{ complaint.status }}</span>
+      </a>
+    {% else %}
+      <p class="empty">No complaints yet. Submit your first issue when something needs attention.</p>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

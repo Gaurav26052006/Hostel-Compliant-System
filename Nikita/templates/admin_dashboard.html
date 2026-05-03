@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard | HostelCare{% endblock %}
+{% block content %}
+<section class="page-head">
+  <div>
+    <p class="eyebrow">Admin Dashboard</p>
+    <h1>Complaint Control Center</h1>
+  </div>
+</section>
+<section class="stats-grid">
+  <div class="stat"><span>Total</span><strong>{{ stats.total or 0 }}</strong></div>
+  <div class="stat"><span>Pending</span><strong>{{ stats.pending or 0 }}</strong></div>
+  <div class="stat"><span>In Progress</span><strong>{{ stats.progress or 0 }}</strong></div>
+  <div class="stat"><span>Resolved</span><strong>{{ stats.resolved or 0 }}</strong></div>
+</section>
+<form class="filter-bar" method="get">
+  <input name="q" value="{{ filters.q }}" placeholder="Search complaint ID or title">
+  <input name="room" value="{{ filters.room }}" placeholder="Room">
+  <select name="category">
+    <option value="">All Categories</option>
+    {% for item in ['Electrical','Plumbing','Cleaning','WiFi'] %}
+      <option value="{{ item }}" {% if filters.category == item %}selected{% endif %}>{{ item }}</option>
+    {% endfor %}
+  </select>
+  <select name="status">
+    <option value="">All Status</option>
+    {% for item in ['Pending','In Progress','Resolved'] %}
+      <option value="{{ item }}" {% if filters.status == item %}selected{% endif %}>{{ item }}</option>
+    {% endfor %}
+  </select>
+  <input type="date" name="date" value="{{ filters.date }}">
+  <button class="button small" type="submit">Filter</button>
+</form>
+<section class="table-shell">
+  <h2>All Complaints</h2>
+  <div class="complaint-list">
+    {% for complaint in complaints %}
+      <a class="complaint-row" href="{{ url_for('complaint_detail', complaint_code=complaint.complaint_code) }}">
+        <div><strong>{{ complaint.title }}</strong><small>{{ complaint.complaint_code }} · {{ complaint.student_name }} · Room {{ complaint.room }}</small></div>
+        <span>{{ complaint.category }}</span>
+        <span class="priority {{ complaint.priority|lower }}">{{ complaint.priority }}</span>
+        <span class="status {{ complaint.status|replace(' ', '-')|lower }}">{{ complaint.status }}</span>
+      </a>
+    {% else %}
+      <p class="empty">No matching complaints found.</p>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

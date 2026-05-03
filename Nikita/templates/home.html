@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}HostelCare | Smart Complaint System{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="hero-content">
+    <p class="eyebrow">Student Hostel Complaint Management</p>
+    <h1>Report hostel issues quickly and track every fix beautifully.</h1>
+    <p class="hero-copy">A clean system for electrical, plumbing, cleaning, and WiFi complaints with image proof, priority levels, admin updates, comments, notifications, and service ratings.</p>
+    <div class="hero-actions">
+      <a class="button" href="{{ url_for('signup') }}">Create Student Account</a>
+      <a class="button ghost" href="{{ url_for('login') }}">Login</a>
+    </div>
+  </div>
+  <div class="hero-panel">
+    <div class="metric-card accent"><span>High Priority</span><strong>WiFi down</strong><small>Room B-204</small></div>
+    <div class="metric-card"><span>In Progress</span><strong>Plumbing leak</strong><small>Admin note added</small></div>
+    <div class="metric-card success"><span>Resolved</span><strong>Fan repaired</strong><small>Rated 5 stars</small></div>
+  </div>
+</section>
+<section class="features">
+  <article><h3>Student Portal</h3><p>Submit complaints, attach proof, view history, reply to admin notes, and rate completed work.</p></article>
+  <article><h3>Admin Panel</h3><p>Search, filter, update status, track counts, and resolve issues from one focused dashboard.</p></article>
+  <article><h3>Live Updates</h3><p>In-app notifications keep students and admins informed whenever something changes.</p></article>
+</section>
+{% endblock %}

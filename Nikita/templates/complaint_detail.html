@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}{{ complaint.complaint_code }} | HostelCare{% endblock %}
+{% block content %}
+<section class="detail-layout">
+  <article class="detail-main">
+    <div class="detail-head">
+      <div>
+        <p class="eyebrow">{{ complaint.complaint_code }}</p>
+        <h1>{{ complaint.title }}</h1>
+        <p class="muted">{{ complaint.category }} · Room {{ complaint.room }} · {{ complaint.created_at }}</p>
+      </div>
+      <span class="status {{ complaint.status|replace(' ', '-')|lower }}">{{ complaint.status }}</span>
+    </div>
+    <p class="description">{{ complaint.description }}</p>
+    {% if complaint.image_filename %}
+      <img class="proof-image" src="{{ url_for('uploaded_file', filename=complaint.image_filename) }}" alt="Complaint proof">
+    {% endif %}
+    {% if current_user.role == 'admin' %}
+      <form class="inline-panel" method="post">
+        <input type="hidden" name="action" value="status">
+        <label>Status
+          <select name="status">
+            {% for item in ['Pending','In Progress','Resolved'] %}
+              <option value="{{ item }}" {% if complaint.status == item %}selected{% endif %}>{{ item }}</option>
+            {% endfor %}
+          </select>
+        </label>
+        <label>Admin Note<textarea name="admin_note" rows="3">{{ complaint.admin_note or '' }}</textarea></label>
+        <button class="button" type="submit">Update Status</button>
+      </form>
+    {% endif %}
+    {% if current_user.role == 'student' and complaint.status == 'Resolved' %}
+      <form class="inline-panel" method="post">
+        <input type="hidden" name="action" value="rating">
+        <label>Rate Service
+          <select name="rating" required>
+            {% for value in [5,4,3,2,1] %}
+              <option value="{{ value }}" {% if complaint.rating == value %}selected{% endif %}>{{ value }} stars</option>
+            {% endfor %}
+          </select>
+        </label>
+        <label>Feedback<textarea name="rating_comment" rows="3">{{ complaint.rating_comment or '' }}</textarea></label>
+        <button class="button" type="submit">Submit Rating</button>
+      </form>
+    {% endif %}
+  </article>
+  <aside class="side-panel">
+    <h2>Status Timeline</h2>
+    <div class="timeline">
+      {% for item in history %}
+        <div><strong>{{ item.status }}</strong><span>{{ item.note }}</span><small>{{ item.created_at }}</small></div>
+      {% endfor %}
+    </div>
+    {% if complaint.rating %}
+      <div class="rating-box"><strong>{{ complaint.rating }} / 5 stars</strong><span>{{ complaint.rating_comment }}</span></div>
+    {% endif %}
+  </aside>
+</section>
+<section class="comments">
+  <h2>Comments & Feedback</h2>
+  {% for comment in comments %}
+    <div class="comment">
+      <strong>{{ comment.name }} <span>{{ comment.role }}</span></strong>
+      <p>{{ comment.message }}</p>
+      <small>{{ comment.created_at }}</small>
+    </div>
+  {% else %}
+    <p class="empty">No comments yet.</p>
+  {% endfor %}
+  <form class="comment-form" method="post">
+    <input type="hidden" name="action" value="comment">
+    <textarea name="message" rows="3" required placeholder="Write a reply or note"></textarea>
+    <button class="button" type="submit">Add Comment</button>
+  </form>
+</section>
+{% endblock %}

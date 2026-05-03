@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Notifications | HostelCare{% endblock %}
+{% block content %}
+<section class="page-head">
+  <div>
+    <p class="eyebrow">Updates</p>
+    <h1>Notifications</h1>
+  </div>
+</section>
+<section class="table-shell">
+  <div class="notification-list">
+    {% for item in notifications %}
+      <div class="notification {% if not item.is_read %}unread{% endif %}">
+        <p>{{ item.message }}</p>
+        <small>{{ item.created_at }}</small>
+      </div>
+    {% else %}
+      <p class="empty">No notifications yet.</p>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Login | HostelCare{% endblock %}
+{% block content %}
+<section class="auth-shell">
+  <form class="form-card" method="post">
+    <p class="eyebrow">Secure Access</p>
+    <h1>Login</h1>
+    <label>Email<input type="email" name="email" required placeholder="you@example.com"></label>
+    <label>Password<input type="password" name="password" required placeholder="Enter password"></label>
+    <label>Panel
+      <select name="role" required>
+        <option value="student">Student Panel</option>
+        <option value="admin">Admin Panel</option>
+      </select>
+    </label>
+    <button class="button full" type="submit">Login</button>
+    <p class="hint">Default admin: admin@hostel.com / admin123</p>
+  </form>
+</section>
+{% endblock %}

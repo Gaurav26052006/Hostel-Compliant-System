@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Student Signup | HostelCare{% endblock %}
+{% block content %}
+<section class="auth-shell">
+  <form class="form-card" method="post">
+    <p class="eyebrow">Student Registration</p>
+    <h1>Create account</h1>
+    <label>Full Name<input type="text" name="name" required placeholder="Student name"></label>
+    <label>Email<input type="email" name="email" required placeholder="student@example.com"></label>
+    <label>Room Number<input type="text" name="room" required placeholder="A-101"></label>
+    <label>Password<input type="password" name="password" minlength="6" required placeholder="Minimum 6 characters"></label>
+    <button class="button full" type="submit">Sign Up</button>
+  </form>
+</section>
+{% endblock %}

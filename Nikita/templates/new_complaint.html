@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}New Complaint | HostelCare{% endblock %}
+{% block content %}
+<section class="auth-shell wide">
+  <form class="form-card" method="post" enctype="multipart/form-data">
+    <p class="eyebrow">Complaint Form</p>
+    <h1>Submit a new issue</h1>
+    <div class="form-grid">
+      <label>Title<input type="text" name="title" required placeholder="Short issue title"></label>
+      <label>Room Number<input type="text" name="room" required value="{{ current_user.room or '' }}"></label>
+      <label>Category
+        <select name="category" required>
+          <option>Electrical</option>
+          <option>Plumbing</option>
+          <option>Cleaning</option>
+          <option>WiFi</option>
+        </select>
+      </label>
+      <label>Priority
+        <select name="priority" required>
+          <option>Low</option>
+          <option>Medium</option>
+          <option>High</option>
+        </select>
+      </label>
+    </div>
+    <label>Description<textarea name="description" rows="5" required placeholder="Explain the issue clearly"></textarea></label>
+    <label>Attach Image<input type="file" name="image" accept="image/*"></label>
+    <button class="button full" type="submit">Submit Complaint</button>
+  </form>
+</section>
+{% endblock %}
